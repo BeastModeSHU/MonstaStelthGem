@@ -14,7 +14,6 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.foxel.maxel.ld33.constants.Constants;
-import com.foxel.maxel.ld33.entities.Entity;
 import com.foxel.maxel.ld33.entities.Player;
 import com.foxel.maxel.ld33.entities.Tenant;
 import com.foxel.maxel.ld33.map.Interactable;
@@ -29,8 +28,7 @@ import com.foxel.maxel.ld33.rendering.Renderer;
 public class StateOne extends BasicGameState {
 
 	private final int STATE_ID;
-	private ArrayList<Entity> renderable;
-	private ArrayList<Renderable>renderableGameEntities;
+	private ArrayList<Renderable> renderable;
 	private Map map;
 	private Camera camera;
 	private Player player;
@@ -50,7 +48,7 @@ public class StateOne extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		splash = new Image(Constants.OPENING_WINDOW_LOC);
 		hasBegun = false;
-		renderable = new ArrayList<Entity>();
+		renderable = new ArrayList<Renderable>();
 
 		map = new Map();
 		map.init();
@@ -238,7 +236,8 @@ public class StateOne extends BasicGameState {
 	}
 
 	private void resetGame(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		for (Entity e : renderable) {
+		//TODO reset list of interactables
+		for (Renderable e : renderable) {
 			e.init(gc, sbg);
 		}
 		interactables.clear();
@@ -248,6 +247,6 @@ public class StateOne extends BasicGameState {
 			if (interactables.get(i).getID() == -1)
 				++targetCount;
 		}
-		renderer.setInteractables(interactables);
+//		renderer.setInteractables(interactables);
 	}
 }

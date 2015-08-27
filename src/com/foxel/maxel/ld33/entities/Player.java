@@ -13,8 +13,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.map.Map;
+import com.foxel.maxel.ld33.resources.Renderable;
 
-public class Player extends Entity {
+public class Player extends Renderable {
 	/*
 	 * Player Class -> Handles all player interactions with the game
 	 */
@@ -95,7 +96,7 @@ public class Player extends Entity {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		if (!isPlayerHidden)
 			g.drawAnimation(main, x * TILESIZE, y * TILESIZE);
-//		g.fill(collider);
+		// g.fill(collider);
 	}
 
 	@Override
@@ -141,8 +142,8 @@ public class Player extends Entity {
 
 	}
 
-	@Override
-	protected void moveEntity(Vector2f move, int delta) {
+	
+	private void moveEntity(Vector2f move, int delta) {
 
 		move = move.normalise();
 
@@ -250,7 +251,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	public Vector2f getEntityDimensions() {
+	public Vector2f getDimensions() {
 
 		return new Vector2f(main.getCurrentFrame().getWidth(), main.getCurrentFrame().getHeight());
 	}

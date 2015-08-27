@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 
-import com.foxel.maxel.ld33.entities.Entity;
+import com.foxel.maxel.ld33.resources.Renderable;
 
 public class Camera {
 
@@ -25,31 +25,31 @@ public class Camera {
 
 	}
 
-	public void translate(Graphics g, Entity player) {
+	public void translate(Graphics g, Renderable player) {
 		// if the players x position (in the world) minus the screen size over 2
 		// + half the size of the player
 		// is lees than 0, set the viewport x to 0
 
-		if (player.getPixelLocation().x - Display.getWidth() / 2 + player.getEntityDimensions().x
+		if (player.getPixelLocation().x - Display.getWidth() / 2 + player.getDimensions().x
 				/ 2 < 0) {
 			x = 0;
 		} else if (player.getPixelLocation().x + Display.getWidth() / 2
-				+ player.getEntityDimensions().x / 2 > mapWidth) {
+				+ player.getDimensions().x / 2 > mapWidth) {
 			x = -mapWidth + Display.getWidth();
 		} else {
 			x = (int) (-player.getPixelLocation().x + Display.getWidth() / 2 - player
-					.getEntityDimensions().x / 2);
+					.getDimensions().x / 2);
 		}
 
-		if (player.getPixelLocation().y - Display.getHeight() / 2 + player.getEntityDimensions().x
+		if (player.getPixelLocation().y - Display.getHeight() / 2 + player.getDimensions().x
 				/ 2 < 0) {
 			y = 0;
 		} else if (player.getPixelLocation().y + Display.getHeight() / 2
-				+ player.getEntityDimensions().y / 2 > mapHeight) {
+				+ player.getDimensions().y / 2 > mapHeight) {
 			y = -mapHeight + Display.getHeight();
 		} else {
 			y = (int) (-player.getPixelLocation().y + Display.getHeight() / 2 - player
-					.getEntityDimensions().y / 2);
+					.getDimensions().y / 2);
 		}
 
 		g.translate(x, y);

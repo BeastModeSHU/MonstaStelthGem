@@ -19,10 +19,11 @@ import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.map.Map;
 import com.foxel.maxel.ld33.resources.Action;
 import com.foxel.maxel.ld33.resources.Camera;
+import com.foxel.maxel.ld33.resources.Renderable;
 import com.foxel.maxel.ld33.resources.VisionCone;
 import com.foxel.maxel.ld33.resources.XMLData;
 
-public class Tenant extends Entity {
+public class Tenant extends Renderable {
 	/*
 	 * Tenants of each house will use this class ### MACE ###
 	 */
@@ -276,7 +277,7 @@ public class Tenant extends Entity {
 	}
 
 	@Override
-	public Vector2f getEntityDimensions() {
+	public Vector2f getDimensions() {
 
 		Vector2f dimensions = new Vector2f(main.getCurrentFrame().getWidth(), main
 				.getCurrentFrame().getHeight());
@@ -289,10 +290,6 @@ public class Tenant extends Entity {
 		return dimensions;
 	}
 
-	@Override
-	protected void moveEntity(Vector2f move, int delta) {
-		// /XXX Redundant
-	}
 
 	private void moveTowards(Vector2f move, Vector2f dest, int delta) {
 
