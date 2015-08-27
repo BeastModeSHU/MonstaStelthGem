@@ -22,6 +22,7 @@ import com.foxel.maxel.ld33.map.NoiseMaker;
 import com.foxel.maxel.ld33.map.Map;
 import com.foxel.maxel.ld33.map.Target;
 import com.foxel.maxel.ld33.resources.Camera;
+import com.foxel.maxel.ld33.resources.Renderable;
 import com.foxel.maxel.ld33.resources.XMLData;
 import com.foxel.maxel.ld33.rendering.Renderer;
 
@@ -29,6 +30,7 @@ public class StateOne extends BasicGameState {
 
 	private final int STATE_ID;
 	private ArrayList<Entity> renderable;
+	private ArrayList<Renderable>renderableGameEntities;
 	private Map map;
 	private Camera camera;
 	private Player player;

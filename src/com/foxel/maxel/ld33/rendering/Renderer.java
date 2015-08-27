@@ -7,35 +7,30 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import com.foxel.maxel.ld33.constants.Constants;
-import com.foxel.maxel.ld33.entities.Entity;
 import com.foxel.maxel.ld33.entities.Player;
 import com.foxel.maxel.ld33.map.Interactable;
 import com.foxel.maxel.ld33.map.Map;
 import com.foxel.maxel.ld33.resources.Camera;
+import com.foxel.maxel.ld33.resources.Renderable;
 
 public class Renderer {
-	/*
-	 * ### MACE ### Will z-sort the map & entity list and render each thing at
-	 * the right location
-	 */
+	 
 	private final int MAP_SECTION_WIDTH = 15;
 	private final int MAP_SECTION_HEIGHT = 1;
 	private final int TILESIZE;
 	private final int CEILING_LAYER;
 	private Player player;
 	private Map map;
-	private ArrayList<Entity> renderable;
+	private ArrayList<Renderable> renderable;
 	private ArrayList<Polygon> cones;
 	private Image tex;
-	private ArrayList<Interactable> interactables;
 	private Camera camera;
 
-	public Renderer(Camera camera, Player player, Map map, ArrayList<Entity> renderable,
+	public Renderer(Camera camera, Player player, Map map, ArrayList<Renderable> renderable,
 			ArrayList<Interactable> interactables, ArrayList<Polygon> cones) {
 		this.player = player;
 		this.map = map;
@@ -50,7 +45,6 @@ public class Renderer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		this.interactables = interactables;
 
 	}
 
@@ -74,7 +68,7 @@ public class Renderer {
 	}
 
 	private void swapEntities(int index1, int index2) {
-		Entity temp = renderable.get(index1);
+		Renderable temp = renderable.get(index1);
 		renderable.set(index1, renderable.get(index2));
 		renderable.set(index2, temp);
 	}
@@ -94,10 +88,7 @@ public class Renderer {
 		}
 
 		map.renderWallLayer();
-
-		for (Interactable i : interactables) {
-			i.render(g);
-		}
+		
 		sortRenderableByZ();
 		renderMapLayers(gc, sbg, g);
 	}
@@ -129,7 +120,4 @@ public class Renderer {
 		}
 	}
 
-	public void setInteractables(ArrayList<Interactable> list) {
-		this.interactables = list;
-	}
 }
