@@ -2,7 +2,7 @@ package com.foxel.maxel.ld33.objects;
 
 import org.newdawn.slick.geom.Circle;
 
-public interface ObjectInterface{
+public interface MapObject{
 
 	public void activate();
 	

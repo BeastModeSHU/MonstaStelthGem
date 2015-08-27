@@ -157,7 +157,8 @@ public class StateOne extends BasicGameState {
 		Interactable tempInt = null;
 
 		if (tempList.size() > 0) {
-			float closestDistance = new Vector2f(tempList.get(0).getLocation().x + Constants.TILESIZE/2, tempList.get(0).getLocation().y)
+			float closestDistance = new Vector2f(tempList.get(0).getLocation().x
+					+ Constants.TILESIZE / 2, tempList.get(0).getLocation().y)
 					.distanceSquared(player.getPixelLocation());
 			tempInt = tempList.get(0);
 
@@ -165,8 +166,9 @@ public class StateOne extends BasicGameState {
 				tempInt = tempList.get(0);
 
 				for (int i = 1; i < tempList.size(); ++i) {
-					float thisDistance = new Vector2f(tempList.get(i).getLocation().x + Constants.TILESIZE/2, tempList.get(i).getLocation().y)
-					.distanceSquared(player.getPixelLocation());
+					float thisDistance = new Vector2f(tempList.get(i).getLocation().x
+							+ Constants.TILESIZE / 2, tempList.get(i).getLocation().y)
+							.distanceSquared(player.getPixelLocation());
 					if (thisDistance < closestDistance) {
 						closestDistance = thisDistance;
 						tempInt = tempList.get(i);
@@ -236,7 +238,7 @@ public class StateOne extends BasicGameState {
 	}
 
 	private void resetGame(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		//TODO reset list of interactables
+		// TODO reset list of interactables
 		for (Renderable e : renderable) {
 			e.init(gc, sbg);
 		}
@@ -247,6 +249,6 @@ public class StateOne extends BasicGameState {
 			if (interactables.get(i).getID() == -1)
 				++targetCount;
 		}
-//		renderer.setInteractables(interactables);
+		// renderer.setInteractables(interactables);
 	}
 }
