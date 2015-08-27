@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="25" height="25" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="tileset" tilewidth="64" tileheight="64">
+  <image source="tileset.png" width="1536" height="64"/>
+  <tile id="1">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="" value=""/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="floor_layer" width="25" height="25" visible="0">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgoC9gJgGP2kF7O8i1dzjagUsOn5tGkh3E2E9vO6iNqe1WbGYNlB3oYDDagQuM2jG47BgFgwcAAOpixgzECQAA
+  </data>
+ </layer>
+ <layer name="wall_layer" width="25" height="25">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2USwrAMAhEPUSJ979pFyVQRCVOJkKhA25i5CX+RPp0AYYwTt7vZAzHIg2p583GVGKRP1VjOxlITyIMz2fPEcaspR5kZPIY7/7y3sVgsMViZPMU5WplzncYO3Pu7SNWX8173j5SMmPV/2WGrRGbYeukiS8yxj749egG9sPR18QJAAA=
+  </data>
+ </layer>
+ <layer name="ceiling_layer" width="25" height="25" opacity="0.26">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+2VwQ6AIAiGOVrG3fd/0jzkRu0HxehQi+2fTWRfImgholK1Vm0O5SPOIyaf8UcYC/nzJmNkbOSetNhIxp38NQaqzQzmZW69DLSewbzc9yijnWV6kGEZYsj6Qv8VwYi2NzFabaKeRQxZy54+l2OPwcp3j6HdR0lhzPag5Y9ijN5Jb2VczykZPk2pw0Bm+TSbfT9+nbUDSakavcQJAAA=
+  </data>
+ </layer>
+ <objectgroup name="player_start" width="25" height="25" visible="0">
+  <object x="960" y="1152" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="tenant_spots" width="25" height="25" visible="0">
+  <object name="bed" x="1280" y="512" width="64" height="64"/>
+  <object name="chair" x="128" y="1152" width="64" height="64"/>
+  <object name="fridge" x="320" y="128" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="interactable_objects" width="25" height="25">
+  <object name="tv" x="702" y="128" width="64" height="64"/>
+  <object name="radio" x="120" y="646" width="64" height="64"/>
+  <object name="fridge" x="1346" y="830" width="64" height="64"/>
+  <object name="bin" x="514" y="970" width="64" height="64"/>
+  <object name="target" x="820" y="632" width="48" height="128"/>
+ </objectgroup>
+ <objectgroup name="tenant_startingpoints" width="25" height="25" visible="0">
+  <object name="guy" x="768" y="128" width="64" height="64"/>
+  <object name="lad" x="1344" y="704" width="64" height="64"/>
+ </objectgroup>
+</map>
