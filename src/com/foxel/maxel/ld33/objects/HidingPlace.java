@@ -15,76 +15,34 @@ import com.foxel.maxel.ld33.resources.Renderable;
 
 public class HidingPlace extends Renderable implements MapObject {
 
-	public HidingPlace(Map map, String ENTITY_TYPE) {
+	private final int ID;
+	private Image image, hiding;
+	private Circle activationCircle;
+	private boolean activated = false;
+
+	public HidingPlace(float x, float y, int ID, Map map, String ENTITY_TYPE) {
 		super(map, ENTITY_TYPE);
-		// TODO Auto-generated constructor stub
-	}
-	/*
-	private Image hiding;
+		this.x = x;
+		this.y = y;
+		this.ID = ID;
 
-	public HidingPlace(float x, float y, int ID) {
-		super(x, y, ID);
-		activationCircle = new Circle(x, y, 0);
-		try {
-			image = new SpriteSheet(Constants.OBJECT_SPRITESHEET_LOC, TILESIZE, TILESIZE * 2)
-					.getSubImage(ID, 0);
-			hiding = new Image(Constants.HIDING_ICON);
-			activationCircle.setRadius(image.getWidth());
-		} catch (SlickException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	@Override
-	public void render(Graphics g) throws SlickException {
-		g.drawImage(image, x + image.getWidth() / 2, y - image.getHeight() / 2.5f);
-		if (this.activated) {
-			g.drawImage(hiding, x + hiding.getWidth() / 2, y - image.getHeight() / 3);
-		}
-//		g.draw(this.activationCircle);
-	}*/
-
-	@Override
-	public void activate() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void deactivate() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isActivated() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Circle getActivationCircle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		image = new SpriteSheet(Constants.OBJECT_SPRITESHEET_LOC, TILESIZE, TILESIZE * 2)
+				.getSubImage(ID, 0);
+		hiding = new Image(Constants.HIDING_ICON);
+		activationCircle.setRadius(image.getWidth());
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(image, x + image.getWidth() / 2, y - image.getHeight() / 2.5f);
+		if (this.activated) {
+			g.drawImage(hiding, x + hiding.getWidth() / 2, y - image.getHeight() / 3);
+		}
+
 	}
 
 	@Override
@@ -96,7 +54,40 @@ public class HidingPlace extends Renderable implements MapObject {
 	@Override
 	public float getMaxY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return y + image.getHeight();
+	}
+
+	@Override
+	public Vector2f getPixelLocation() {
+		return new Vector2f(x, y);
+	}
+
+	@Override
+	public void activate() {
+		activated = true;
+	}
+
+	@Override
+	public void deactivate() {
+		activated = false;
+	}
+
+	@Override
+	public boolean isActivated() {
+		// TODO Auto-generated method stub
+		return activated;
+	}
+
+	@Override
+	public Circle getActivationCircle() {
+		// TODO Auto-generated method stub
+		return activationCircle;
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return ID;
 	}
 
 }

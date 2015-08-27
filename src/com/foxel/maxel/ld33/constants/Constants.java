@@ -38,6 +38,7 @@ public class Constants {
 	public static final String HIDINGPLACE_OBJECT = "HidingPlace";
 	public static final String ENTITY_PLAYER = "Player";
 	public static final String ENTITY_TENANT = "Tenant";
+	public static final String ENTITY_OBJECT = "Object";
 	
 	//Asset file locations
 	public static final String OPENING_WINDOW_LOC = "res//splash0001.png";

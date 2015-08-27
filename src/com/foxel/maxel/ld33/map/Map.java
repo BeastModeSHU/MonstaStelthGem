@@ -11,6 +11,10 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
 import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.entities.Tenant;
+import com.foxel.maxel.ld33.objects.HidingPlace;
+import com.foxel.maxel.ld33.objects.MapObject;
+import com.foxel.maxel.ld33.objects.NoiseMaker;
+import com.foxel.maxel.ld33.objects.Target;
 import com.foxel.maxel.ld33.resources.Camera;
 
 public class Map implements TileBasedMap {
@@ -83,9 +87,9 @@ public class Map implements TileBasedMap {
 
 	public boolean isPointFree(float[] point) {
 		boolean isFree = true;
-		int pointX = (int) (point[0]/64.f), pointY = (int) (point[1]/64.f);
-	
-		if(pointX > 0 && pointY > 0)
+		int pointX = (int) (point[0] / 64.f), pointY = (int) (point[1] / 64.f);
+
+		if (pointX > 0 && pointY > 0)
 			isFree = !(blockedMap[pointX][pointY] == 1);
 		return isFree;
 	}
@@ -147,41 +151,35 @@ public class Map implements TileBasedMap {
 		return spot;
 	}
 
-	public ArrayList<Interactable> getInteractables() {
-		ArrayList<Interactable> list = new ArrayList<Interactable>();
+	public ArrayList<MapObject> getInteractables() {
+		ArrayList<MapObject> list = new ArrayList<MapObject>();
 		int interact = Constants.INTERACTABLES_OBJECT_LAYER;
-
+		String ENTITY_TYPE = Constants.ENTITY_OBJECT;
 		for (int i = 0; i < map.getObjectCount(interact); ++i) {
-			float tileX = map.getObjectX(interact, i) - TILESIZE /2 ; 
-			float tileY = map.getObjectY(interact, i) - TILESIZE/2;
-			
+			float tileX = map.getObjectX(interact, i) - TILESIZE / 2;
+			float tileY = map.getObjectY(interact, i) - TILESIZE / 2;
+
 			switch (map.getObjectName(interact, i)) {
 			case Constants.BIN_OBJECT:
-				list.add(new HidingPlace(tileX, tileY,
-						Constants.BIN_ID));
+				list.add(new HidingPlace(tileX, tileY, Constants.BIN_ID, null, ENTITY_TYPE));
 				break;
 			case Constants.CLOSET_OBJECT:
-				list.add(new HidingPlace(tileX, tileY,
-						Constants.CLOSET_ID));
+				list.add(new HidingPlace(tileX, tileY, Constants.CLOSET_ID, null, ENTITY_TYPE));
 				break;
 			case Constants.FRIDGE_OBJECT:
-				list.add(new HidingPlace(tileX, tileY,
-						Constants.FRIDGE_ID));
+				list.add(new HidingPlace(tileX, tileY, Constants.FRIDGE_ID, null, ENTITY_TYPE));
 				break;
 			case Constants.CHAIR_OBJECT:
-				list.add(new HidingPlace(tileX, tileY,
-						Constants.CHAIR_ID));
+				list.add(new HidingPlace(tileX, tileY, Constants.CHAIR_ID, null, ENTITY_TYPE));
 				break;
 			case Constants.TV_OBJECT:
-				list.add(new NoiseMaker(tileX, tileY,
-						Constants.TV_ID));
+				list.add(new NoiseMaker(tileX, tileY, Constants.TV_ID, null, ENTITY_TYPE));
 				break;
 			case Constants.RADIO_OBJECT:
-				list.add(new NoiseMaker(tileX, tileY,
-						Constants.RADIO_ID));
+				list.add(new NoiseMaker(tileX, tileY, Constants.RADIO_ID, null, ENTITY_TYPE));
 				break;
 			case Constants.TARGET_OBJECT:
-				list.add(new Target(tileX, tileY, -1));
+				list.add(new Target(tileX, tileY, -1, null, ENTITY_TYPE));
 				break;
 			}
 

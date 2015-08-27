@@ -14,9 +14,13 @@ import com.foxel.maxel.ld33.map.Map;
 import com.foxel.maxel.ld33.resources.Renderable;
 
 public class Target extends Renderable implements MapObject {
-
-	public Target(Map map, String ENTITY_TYPE) {
+	private final int ID; 
+	
+	public Target(float x, float y, int ID, Map map, String ENTITY_TYPE) {
 		super(map, ENTITY_TYPE);
+		this.x = x; 
+		this.y = y; 
+		this.ID = ID;
 		// TODO Auto-generated constructor stub
 	}
 

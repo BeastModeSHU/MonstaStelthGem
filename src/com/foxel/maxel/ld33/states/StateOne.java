@@ -20,6 +20,7 @@ import com.foxel.maxel.ld33.map.Interactable;
 import com.foxel.maxel.ld33.map.NoiseMaker;
 import com.foxel.maxel.ld33.map.Map;
 import com.foxel.maxel.ld33.map.Target;
+import com.foxel.maxel.ld33.objects.MapObject;
 import com.foxel.maxel.ld33.resources.Camera;
 import com.foxel.maxel.ld33.resources.Renderable;
 import com.foxel.maxel.ld33.resources.XMLData;
@@ -32,7 +33,7 @@ public class StateOne extends BasicGameState {
 	private Map map;
 	private Camera camera;
 	private Player player;
-	private ArrayList<Interactable> interactables;
+	private ArrayList<MapObject> mapObjects;
 	private ArrayList<Polygon> allPolys;
 	private Renderer renderer;
 	private float spottedTimer = 0;
@@ -70,8 +71,8 @@ public class StateOne extends BasicGameState {
 
 		// zSort = new SortZAxis(player, map);
 
-		interactables = new ArrayList<Interactable>();
-		interactables = map.getInteractables();
+		mapObjects = new ArrayList<MapObject>();
+		mapObjects = map.getInteractables();
 
 		for (int i = 0; i < interactables.size(); ++i) {
 			if (interactables.get(i).getID() == -1)

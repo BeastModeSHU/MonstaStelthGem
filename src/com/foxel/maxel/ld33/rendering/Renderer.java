@@ -12,7 +12,6 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.entities.Player;
-import com.foxel.maxel.ld33.map.Interactable;
 import com.foxel.maxel.ld33.map.Map;
 import com.foxel.maxel.ld33.resources.Camera;
 import com.foxel.maxel.ld33.resources.Renderable;
@@ -30,8 +29,7 @@ public class Renderer {
 	private Image tex;
 	private Camera camera;
 
-	public Renderer(Camera camera, Player player, Map map, ArrayList<Renderable> renderable,
-			ArrayList<Interactable> interactables, ArrayList<Polygon> cones) {
+	public Renderer(Camera camera, Player player, Map map, ArrayList<Renderable> renderable, ArrayList<Polygon> cones) {
 		this.player = player;
 		this.map = map;
 		this.renderable = renderable;
