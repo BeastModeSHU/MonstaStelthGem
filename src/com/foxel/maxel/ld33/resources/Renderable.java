@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,7 +19,7 @@ public abstract class Renderable {
 	protected final String ENTITY_TYPE;
 	protected float x, y;
 	protected Map map;
-	protected Rectangle collider;
+	protected Shape collider;
 
 	public Renderable(Map map, String ENTITY_TYPE) {
 		this.map = map;
@@ -48,7 +49,11 @@ public abstract class Renderable {
 
 	public abstract float getMaxY();
 
-	public Rectangle getCollider() {
+	public Shape getCollider() {
 		return collider;
+	}
+	
+	public String getEntityType(){ 
+		return ENTITY_TYPE;
 	}
 }

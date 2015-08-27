@@ -17,14 +17,14 @@ public class HidingPlace extends Renderable implements MapObject {
 
 	private final int ID;
 	private Image image, hiding;
-	private Circle activationCircle;
-	private boolean activated = false;
+	private boolean activated;
 
 	public HidingPlace(float x, float y, int ID, Map map, String ENTITY_TYPE) {
 		super(map, ENTITY_TYPE);
 		this.x = x;
 		this.y = y;
 		this.ID = ID;
+		
 
 	}
 
@@ -33,7 +33,9 @@ public class HidingPlace extends Renderable implements MapObject {
 		image = new SpriteSheet(Constants.OBJECT_SPRITESHEET_LOC, TILESIZE, TILESIZE * 2)
 				.getSubImage(ID, 0);
 		hiding = new Image(Constants.HIDING_ICON);
-		activationCircle.setRadius(image.getWidth());
+		collider = new Circle(x,y,image.getWidth());
+		activated = false; 
+		
 	}
 
 	@Override
@@ -76,12 +78,6 @@ public class HidingPlace extends Renderable implements MapObject {
 	public boolean isActivated() {
 		// TODO Auto-generated method stub
 		return activated;
-	}
-
-	@Override
-	public Circle getActivationCircle() {
-		// TODO Auto-generated method stub
-		return activationCircle;
 	}
 
 	@Override

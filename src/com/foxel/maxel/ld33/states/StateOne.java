@@ -1,6 +1,7 @@
 package com.foxel.maxel.ld33.states;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -9,6 +10,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
@@ -16,11 +18,11 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.entities.Player;
 import com.foxel.maxel.ld33.entities.Tenant;
-import com.foxel.maxel.ld33.map.Interactable;
-import com.foxel.maxel.ld33.map.NoiseMaker;
 import com.foxel.maxel.ld33.map.Map;
-import com.foxel.maxel.ld33.map.Target;
+import com.foxel.maxel.ld33.objects.HidingPlace;
 import com.foxel.maxel.ld33.objects.MapObject;
+import com.foxel.maxel.ld33.objects.NoiseMaker;
+import com.foxel.maxel.ld33.objects.Target;
 import com.foxel.maxel.ld33.resources.Camera;
 import com.foxel.maxel.ld33.resources.Renderable;
 import com.foxel.maxel.ld33.resources.XMLData;
@@ -45,6 +47,7 @@ public class StateOne extends BasicGameState {
 		this.STATE_ID = STATE_ID;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		splash = new Image(Constants.OPENING_WINDOW_LOC);
@@ -59,29 +62,35 @@ public class StateOne extends BasicGameState {
 		camera = new Camera(map.getWidth(), map.getHeight());
 
 		player = new Player(map, Constants.ENTITY_PLAYER);
-		player.init(gc, sbg);
+//		player.init(gc, sbg);
 
 		ArrayList<Tenant> tenants = map.getTenants(camera);
+
 		for (int i = 0; i < tenants.size(); i++) {
-			tenants.get(i).init(gc, sbg);
+			// tenants.get(i).init(gc, sbg);
 			renderable.add(tenants.get(i));
 		}
 
-		renderable.add(player);
+		 renderable.add(player);
 
 		// zSort = new SortZAxis(player, map);
 
 		mapObjects = new ArrayList<MapObject>();
-		mapObjects = map.getInteractables();
+		mapObjects = map.getObjects();
+		renderable.addAll((Collection<? extends Renderable>) mapObjects);
+		
+		for (int i = 0; i < renderable.size(); ++i) {
+			renderable.get(i).init(gc, sbg);
+		}
 
-		for (int i = 0; i < interactables.size(); ++i) {
-			if (interactables.get(i).getID() == -1)
+		for (int i = 0; i < mapObjects.size(); ++i) {
+			if (mapObjects.get(i).getID() == -1)
 				++targetCount;
 		}
 
 		allPolys = new ArrayList<Polygon>();
 
-		renderer = new Renderer(camera, player, map, renderable, interactables, allPolys);
+		renderer = new Renderer(camera, player, map, renderable, allPolys);
 	}
 
 	@Override
@@ -124,7 +133,7 @@ public class StateOne extends BasicGameState {
 			if (spotted) {
 				spottedTimer += (delta / 1000.f);
 				if (spottedTimer > 0.2f) {
-					resetGame(gc, sbg);
+//					resetGame(gc, sbg);
 					spottedTimer = 0.f;
 				}
 			} else {
@@ -147,54 +156,58 @@ public class StateOne extends BasicGameState {
 	}
 
 	private void checkInteractables() {
-		ArrayList<Interactable> tempList = new ArrayList<Interactable>();
+		ArrayList<Renderable> tempList = new ArrayList<Renderable>();
 
-		for (int i = 0; i < interactables.size(); ++i) {
-			if (interactables.get(i).getActivationCircle().intersects(player.getCollider())) {
-				tempList.add(interactables.get(i));
-			}
+		
+		for (int i = 0; i < renderable.size(); ++i) {
+			if (renderable.get(i) instanceof MapObject)
+				if (renderable.get(i).getCollider().intersects(player.getCollider())) {
+					tempList.add(renderable.get(i));
+				}
 
 		}
-		Interactable tempInt = null;
+		Renderable tempRend = null;
+		MapObject tempMapOb = null;
 
 		if (tempList.size() > 0) {
-			float closestDistance = new Vector2f(tempList.get(0).getLocation().x
-					+ Constants.TILESIZE / 2, tempList.get(0).getLocation().y)
+			float closestDistance = new Vector2f(tempList.get(0).getPixelLocation().x
+					+ Constants.TILESIZE / 2, tempList.get(0).getPixelLocation().y)
 					.distanceSquared(player.getPixelLocation());
-			tempInt = tempList.get(0);
+
+			tempRend = tempList.get(0);
+			tempMapOb = (MapObject) tempList.get(0);
 
 			if (tempList.size() > 1) {
-				tempInt = tempList.get(0);
+				// tempInt = tempList.get(0);
 
 				for (int i = 1; i < tempList.size(); ++i) {
-					float thisDistance = new Vector2f(tempList.get(i).getLocation().x
-							+ Constants.TILESIZE / 2, tempList.get(i).getLocation().y)
+					float thisDistance = new Vector2f(tempList.get(i).getPixelLocation().x
+							+ Constants.TILESIZE / 2, tempList.get(i).getPixelLocation().y)
 							.distanceSquared(player.getPixelLocation());
 					if (thisDistance < closestDistance) {
 						closestDistance = thisDistance;
-						tempInt = tempList.get(i);
+						tempRend = tempList.get(i);
+						tempMapOb = (MapObject) tempList.get(i);
 					}
 				}
 
 			}
 		}
-		if (tempInt != null) {
-			if (tempInt.getID() == Constants.TV_ID || tempInt.getID() == Constants.RADIO_ID) {
+		if (tempRend != null && tempMapOb != null) {
+			if (tempMapOb instanceof NoiseMaker) {
 
-				NoiseMaker temp = (NoiseMaker) (tempInt);
-				distractTenants(new Vector2f(temp.getLocation().x, temp.getLocation().y),
-						temp.getDistractionCircle());
+				NoiseMaker temp = (NoiseMaker) (tempRend);
+				distractTenants(new Vector2f(temp.getPixelLocation().x, temp.getPixelLocation().y),
+						temp.getCollider());
 			}
 
-			if (tempInt.getID() == Constants.BIN_ID || tempInt.getID() == Constants.FRIDGE_ID
-					|| tempInt.getID() == Constants.CHAIR_ID
-					|| tempInt.getID() == Constants.CLOSET_ID) {
+			if (tempMapOb instanceof HidingPlace) {
 
-				hidePlayer(tempInt);
+				hidePlayer((HidingPlace) tempRend);
 			}
 
-			if (tempInt.getID() == -1) {
-				killTarget((Target) tempInt);
+			if (tempMapOb instanceof Target) {
+				killTarget((Target) tempRend);
 			}
 		}
 	}
@@ -207,10 +220,10 @@ public class StateOne extends BasicGameState {
 		}
 	}
 
-	private void distractTenants(Vector2f source, Circle collider) {
+	private void distractTenants(Vector2f source, Shape collider) {
 
 		for (int i = 0; i < renderable.size(); ++i) {
-			if (renderable.get(i).getClass().getSimpleName().equals(Constants.ENTITY_TENANT)) {
+			if (renderable.get(i) instanceof Tenant) {
 
 				Tenant temp = (Tenant) renderable.get(i);
 				if (collider.intersects(temp.getCollider())) {
@@ -220,11 +233,12 @@ public class StateOne extends BasicGameState {
 		}
 	}
 
-	private void hidePlayer(Interactable hidingPlace) {
+	private void hidePlayer(HidingPlace hidingPlace) {
 		if (!player.isPlayerHiding() && !hidingPlace.isActivated()) {
 			hidingPlace.activate();
 			player.setHidden(true);
-			player.setPlayerLocation(hidingPlace.getLocation().x, hidingPlace.getLocation().y);
+			player.setPlayerLocation(hidingPlace.getPixelLocation().x,
+					hidingPlace.getPixelLocation().y);
 
 		} else if (player.isPlayerHiding()) {
 			player.setHidden(false);
@@ -243,12 +257,15 @@ public class StateOne extends BasicGameState {
 		for (Renderable e : renderable) {
 			e.init(gc, sbg);
 		}
-		interactables.clear();
-		interactables = map.getInteractables();
-		targetCount = 0;
-		for (int i = 0; i < interactables.size(); ++i) {
-			if (interactables.get(i).getID() == -1)
-				++targetCount;
+		/*
+		 * interactables.clear(); interactables = map.getInteractables();
+		 *
+		 */
+		 targetCount = 0;
+		for (int i = 0; i < renderable.size(); ++i) {
+			if (renderable.get(i) instanceof Target) {
+					++targetCount;
+			}
 		}
 		// renderer.setInteractables(interactables);
 	}

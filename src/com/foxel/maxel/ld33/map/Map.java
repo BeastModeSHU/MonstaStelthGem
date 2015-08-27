@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
@@ -71,7 +72,7 @@ public class Map implements TileBasedMap {
 		map.render(x, y, startX, startY, map.getWidth(), height, layer, false);
 	}
 
-	public boolean isTileFree(Rectangle collider) {
+	public boolean isTileFree(Shape collider) {
 		boolean isFree = true;
 		for (int i = 0; i < map.getHeight(); ++i) {
 			for (int j = 0; j < map.getWidth(); ++j) {
@@ -151,7 +152,7 @@ public class Map implements TileBasedMap {
 		return spot;
 	}
 
-	public ArrayList<MapObject> getInteractables() {
+	public ArrayList<MapObject> getObjects() {
 		ArrayList<MapObject> list = new ArrayList<MapObject>();
 		int interact = Constants.INTERACTABLES_OBJECT_LAYER;
 		String ENTITY_TYPE = Constants.ENTITY_OBJECT;
