@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.map.Map;
+import com.foxel.maxel.ld33.resources.Tweener;
 
 public class Player extends Entity {
 	/*
@@ -27,6 +28,10 @@ public class Player extends Entity {
 	private String lastDirection;
 	private boolean isIdle = true;
 	private float colliderAdjustY;
+	private Tweener xTweener = new Tweener();
+	private Tweener yTweener = new Tweener();
+	private double xTweenerVal = 0d;
+	private double yTweenerVal = 0d;
 
 	public Player(Map map, String ENTITTY_TYPE) {
 		super(map, ENTITTY_TYPE);
@@ -93,8 +98,20 @@ public class Player extends Entity {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		if (!isPlayerHidden)
-			g.drawAnimation(main, x * TILESIZE, y * TILESIZE);
+		if (!isPlayerHidden) {
+			float xOffset = (float) (main.getCurrentFrame().getWidth() * (xTweenerVal - 1f));
+			float yOffset = (float) (main.getCurrentFrame().getHeight() * (yTweenerVal - 1f));
+			g.drawImage(main.getCurrentFrame(),
+                    x * TILESIZE - xOffset,
+                    y * TILESIZE - yOffset,
+                    (float)(x * TILESIZE + main.getCurrentFrame().getWidth() * xTweenerVal),
+                    (float)(y * TILESIZE + main.getCurrentFrame().getHeight()),
+                    0,
+                    0,
+                    main.getCurrentFrame().getWidth(),
+                    main.getCurrentFrame().getHeight());
+			//g.drawAnimation(main, x * TILESIZE, y * TILESIZE);
+		}
 //		g.fill(collider);
 	}
 
@@ -133,12 +150,18 @@ public class Player extends Entity {
 			} else {
 				isIdle = true;
 			}
-
+			
+			if (input.isKeyPressed(Input.KEY_X)) {
+				xTweener.tween(1d, 1.1f, .2f, true);
+				yTweener.tween(1d, .85d, .2f, true);
+			}
 		}
 
 		moveEntity(move, delta);
 		updateAnimation(delta);
-
+		
+		xTweenerVal = xTweener.update(delta);
+		yTweenerVal = yTweener.update(delta);
 	}
 
 	@Override
