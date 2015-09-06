@@ -16,15 +16,15 @@ import com.foxel.maxel.ld33.resources.Renderable;
 public class HidingPlace extends Renderable implements MapObject {
 
 	private final int ID;
-	private Image image, hiding;
+	private Image image, hidingIcon;
 	private boolean activated;
+	private float iconX, iconY;
 
 	public HidingPlace(float x, float y, int ID, Map map, String ENTITY_TYPE) {
 		super(map, ENTITY_TYPE);
 		this.x = x;
 		this.y = y;
 		this.ID = ID;
-		
 
 	}
 
@@ -32,17 +32,24 @@ public class HidingPlace extends Renderable implements MapObject {
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		image = new SpriteSheet(Constants.OBJECT_SPRITESHEET_LOC, TILESIZE, TILESIZE * 2)
 				.getSubImage(ID, 0);
-		hiding = new Image(Constants.HIDING_ICON);
+		hidingIcon = new Image(Constants.HIDING_ICON);
 		collider = new Circle(x,y,image.getWidth());
 		activated = false; 
-		
+		x = (x + image.getWidth() / 2); 
+		y = (y - image.getHeight() / 2.5f);
+		iconX =  (x + hidingIcon.getWidth() / 2);
+		iconY = (y - image.getHeight() / 3);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(image, x + image.getWidth() / 2, y - image.getHeight() / 2.5f);
+		// g.drawImage(image, x + image.getWidth() / 2, y - image.getHeight() /
+		// 2.5f);
+		g.drawImage(image, x, y);
 		if (this.activated) {
-			g.drawImage(hiding, x + hiding.getWidth() / 2, y - image.getHeight() / 3);
+			// g.drawImage(hidingIcon, x + hiding.getWidth() / 2, y -
+			// image.getHeight() / 3);
+			g.drawImage(hidingIcon, iconX, iconY);
 		}
 
 	}

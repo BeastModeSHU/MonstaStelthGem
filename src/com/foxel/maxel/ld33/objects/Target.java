@@ -28,6 +28,7 @@ public class Target extends Renderable implements MapObject {
 
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+		
 		activated = false;
 		collider = new Circle(x, y, Constants.ACTIVATION_RANGE);
 

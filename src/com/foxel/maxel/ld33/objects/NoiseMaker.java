@@ -39,12 +39,18 @@ public class NoiseMaker extends Renderable implements MapObject {
 		if (image == null)
 			image = new SpriteSheet(Constants.OBJECT_SPRITESHEET_LOC, TILESIZE, TILESIZE * 2)
 					.getSubImage(ID, 0);
+
+		x = (x - image.getWidth() / 2) + Constants.TILESIZE;
+		y = (y - image.getHeight() / 2.5f);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
-		g.drawImage(image, (x - image.getWidth() / 2) + Constants.TILESIZE, y - image.getHeight()
-				/ 2.5f);
+		/*
+		 * g.drawImage(image, (x - image.getWidth() / 2) + Constants.TILESIZE, y
+		 * - image.getHeight() / 2.5f);
+		 */
+		g.drawImage(image, x, y);
 	}
 
 	@Override
@@ -74,7 +80,7 @@ public class NoiseMaker extends Renderable implements MapObject {
 	@Override
 	public boolean isActivated() {
 		// TODO Auto-generated method stub
-		return false;
+		return activated;
 	}
 
 	@Override
@@ -87,25 +93,5 @@ public class NoiseMaker extends Renderable implements MapObject {
 		return distractionCircle;
 	}
 
-	/*
-	 * Interactable object in the game which will distract enemies
-	 */
-	/*
-	 * private Circle distractionCircle; private Image image; private final int
-	 * MAX_RANGE = 320;
-	 * 
-	 * public NoiseMaker(float x, float y, int ID) { super(x, y, ID);
-	 * distractionCircle = new Circle(x + Constants.TILESIZE, y, MAX_RANGE); try
-	 * { image = new SpriteSheet(Constants.OBJECT_SPRITESHEET_LOC, TILESIZE,
-	 * TILESIZE * 2) .getSubImage(ID, 0); this.activationCircle = new Circle(x +
-	 * Constants.TILESIZE,y+Constants.TILESIZE/2,Constants.ACTIVATION_RANGE); }
-	 * catch (SlickException e) { e.printStackTrace(); } }
-	 * 
-	 * public Circle getDistractionCircle() { return distractionCircle; }
-	 * 
-	 * @Override public void render(Graphics g) throws SlickException {
-	 * g.drawImage(image, (x - image.getWidth() / 2) + Constants.TILESIZE, y -
-	 * image.getHeight() / 2.5f); }
-	 */
 
 }

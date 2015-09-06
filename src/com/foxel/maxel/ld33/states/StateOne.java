@@ -50,6 +50,7 @@ public class StateOne extends BasicGameState {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
+
 		splash = new Image(Constants.OPENING_WINDOW_LOC);
 		hasBegun = false;
 		renderable = new ArrayList<Renderable>();
@@ -62,7 +63,7 @@ public class StateOne extends BasicGameState {
 		camera = new Camera(map.getWidth(), map.getHeight());
 
 		player = new Player(map, Constants.ENTITY_PLAYER);
-//		player.init(gc, sbg);
+		// player.init(gc, sbg);
 
 		ArrayList<Tenant> tenants = map.getTenants(camera);
 
@@ -71,14 +72,14 @@ public class StateOne extends BasicGameState {
 			renderable.add(tenants.get(i));
 		}
 
-		 renderable.add(player);
+		renderable.add(player);
 
 		// zSort = new SortZAxis(player, map);
 
 		mapObjects = new ArrayList<MapObject>();
 		mapObjects = map.getObjects();
 		renderable.addAll((Collection<? extends Renderable>) mapObjects);
-		
+
 		for (int i = 0; i < renderable.size(); ++i) {
 			renderable.get(i).init(gc, sbg);
 		}
@@ -107,6 +108,7 @@ public class StateOne extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
 		if (hasBegun) {
+
 			boolean spotted = false;
 			if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE))
 				gc.exit();
@@ -133,7 +135,7 @@ public class StateOne extends BasicGameState {
 			if (spotted) {
 				spottedTimer += (delta / 1000.f);
 				if (spottedTimer > 0.2f) {
-//					resetGame(gc, sbg);
+					// resetGame(gc, sbg);
 					spottedTimer = 0.f;
 				}
 			} else {
@@ -152,23 +154,26 @@ public class StateOne extends BasicGameState {
 		} else {
 			if (gc.getInput().isKeyPressed(Input.KEY_X))
 				hasBegun = true;
+			if (gc.getInput().isKeyPressed(Input.KEY_ESCAPE))
+				gc.exit();
 		}
 	}
 
 	private void checkInteractables() {
 		ArrayList<Renderable> tempList = new ArrayList<Renderable>();
 
-		
+
 		for (int i = 0; i < renderable.size(); ++i) {
 			if (renderable.get(i) instanceof MapObject)
 				if (renderable.get(i).getCollider().intersects(player.getCollider())) {
 					tempList.add(renderable.get(i));
 				}
+			
 
 		}
 		Renderable tempRend = null;
 		MapObject tempMapOb = null;
-
+		
 		if (tempList.size() > 0) {
 			float closestDistance = new Vector2f(tempList.get(0).getPixelLocation().x
 					+ Constants.TILESIZE / 2, tempList.get(0).getPixelLocation().y)
@@ -195,18 +200,20 @@ public class StateOne extends BasicGameState {
 		}
 		if (tempRend != null && tempMapOb != null) {
 			if (tempMapOb instanceof NoiseMaker) {
-
+				System.out.println("NoiseMaker");
 				NoiseMaker temp = (NoiseMaker) (tempRend);
 				distractTenants(new Vector2f(temp.getPixelLocation().x, temp.getPixelLocation().y),
 						temp.getCollider());
 			}
 
 			if (tempMapOb instanceof HidingPlace) {
+				System.out.println("Hiding Places");
 
 				hidePlayer((HidingPlace) tempRend);
 			}
 
 			if (tempMapOb instanceof Target) {
+				System.out.println("Target");
 				killTarget((Target) tempRend);
 			}
 		}
@@ -221,6 +228,7 @@ public class StateOne extends BasicGameState {
 	}
 
 	private void distractTenants(Vector2f source, Shape collider) {
+		// assert(source.equals(null)) : "distractTenants";
 
 		for (int i = 0; i < renderable.size(); ++i) {
 			if (renderable.get(i) instanceof Tenant) {
@@ -234,6 +242,9 @@ public class StateOne extends BasicGameState {
 	}
 
 	private void hidePlayer(HidingPlace hidingPlace) {
+		// Sanity checks
+		assert (!hidingPlace.equals(null));
+
 		if (!player.isPlayerHiding() && !hidingPlace.isActivated()) {
 			hidingPlace.activate();
 			player.setHidden(true);
@@ -244,6 +255,7 @@ public class StateOne extends BasicGameState {
 			player.setHidden(false);
 			hidingPlace.deactivate();
 		}
+
 	}
 
 	@Override
@@ -259,12 +271,11 @@ public class StateOne extends BasicGameState {
 		}
 		/*
 		 * interactables.clear(); interactables = map.getInteractables();
-		 *
 		 */
-		 targetCount = 0;
+		targetCount = 0;
 		for (int i = 0; i < renderable.size(); ++i) {
 			if (renderable.get(i) instanceof Target) {
-					++targetCount;
+				++targetCount;
 			}
 		}
 		// renderer.setInteractables(interactables);

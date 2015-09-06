@@ -2,7 +2,7 @@ package com.foxel.maxel.ld33.constants;
 
 public class Constants {
 	//Window
-	public static final String WINDOW_TITLE = "Monsta Stelth Gem! - LD33 Foxel & Mace!";
+	public static final String WINDOW_TITLE = "Monsta Stelth Gem! - InDev.!";
 	public static final int SCREEN_WIDTH = 640;
 	public static final int SCREEN_HEIGHT = 480;
 	

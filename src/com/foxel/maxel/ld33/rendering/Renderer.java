@@ -13,11 +13,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import com.foxel.maxel.ld33.constants.Constants;
 import com.foxel.maxel.ld33.entities.Player;
 import com.foxel.maxel.ld33.map.Map;
+import com.foxel.maxel.ld33.objects.MapObject;
 import com.foxel.maxel.ld33.resources.Camera;
 import com.foxel.maxel.ld33.resources.Renderable;
 
 public class Renderer {
-	 
+
 	private final int MAP_SECTION_WIDTH = 15;
 	private final int MAP_SECTION_HEIGHT = 1;
 	private final int TILESIZE;
@@ -29,7 +30,8 @@ public class Renderer {
 	private Image tex;
 	private Camera camera;
 
-	public Renderer(Camera camera, Player player, Map map, ArrayList<Renderable> renderable, ArrayList<Polygon> cones) {
+	public Renderer(Camera camera, Player player, Map map, ArrayList<Renderable> renderable,
+			ArrayList<Polygon> cones) {
 		this.player = player;
 		this.map = map;
 		this.renderable = renderable;
@@ -60,6 +62,9 @@ public class Renderer {
 					swapEntities(j, (j + 1));
 					swapped = true; // shows a swap occurred
 				}
+				if (renderable.get(j) instanceof MapObject) {
+					// System.out.println(renderable.get(j).getMaxY());
+				}
 			}
 		}
 
@@ -79,14 +84,14 @@ public class Renderer {
 		map.renderFloorLayer();
 
 		for (int i = 0; i < cones.size(); i++) {
-			
+
 			if (camera.isInLargeView((new Vector2f(cones.get(i).getCenterX(), cones.get(i)
 					.getCenterY()))))
 				g.texture(cones.get(i), tex, true);
 		}
 
 		map.renderWallLayer();
-		
+
 		sortRenderableByZ();
 		renderMapLayers(gc, sbg, g);
 	}
@@ -109,6 +114,7 @@ public class Renderer {
 				} else {
 					found = false;
 				}
+
 				++counter;
 			}
 
